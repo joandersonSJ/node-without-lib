@@ -1,15 +1,18 @@
 const http = require('http')
+const url = require('url')
 const routes = require('./routes')
 const middlewares = require('./utils/middlewares')
 
 const server = http.createServer((request, response) => {
-  console.log(`Request method: ${request.method} | Request endpoint: ${request.url}`)
+  const parsedUrl = url.parse(request.url, true)
+  console.log(`Request method: ${request.method} | Request endpoint: ${parsedUrl.pathname}`)
 
   const route = routes.find(routeObj => {
-    return routeObj.endpoint === request.url && routeObj.method === request.method
+    return routeObj.endpoint === parsedUrl.pathname && routeObj.method === request.method
   })
 
   if (route) {
+    request.query = parsedUrl.query
     return route.handler(request, response)
   }
 
