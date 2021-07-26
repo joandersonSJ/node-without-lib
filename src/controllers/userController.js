@@ -12,5 +12,17 @@ module.exports = {
     })
     response.writeHead(200, { 'Content-Type': 'application/json' })
     response.end(JSON.stringify(sortedUser))
+  },
+
+  unique(request, response) {
+    const user = users.find(userObject => userObject.id === Number(request.params.id))
+
+    if (!user) {
+      response.writeHead(404, { 'Content-Type': 'application/json' })
+      return response.end(JSON.stringify({ error: 'User not found' }))
+    }
+    response.writeHead(200, { 'Content-Type': 'application/json' })
+    response.end(JSON.stringify(user))
+
   }
 }

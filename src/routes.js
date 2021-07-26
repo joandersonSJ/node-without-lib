@@ -6,5 +6,10 @@ module.exports = [
     endpoint: '/users',
     method: 'GET',
     handler: userController.index
+  },
+  {
+    endpoint: '/users/:id',
+    method: 'GET',
+    handler: userController.unique
   }
 ]
