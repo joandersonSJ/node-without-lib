@@ -2,6 +2,7 @@ const http = require('http')
 const { URL } = require('url')
 const routes = require('./routes')
 const middlewares = require('./utils/middlewares')
+const bodyParser = require('./helpers/bodyParser')
 
 const server = http.createServer((request, response) => {
   // Novo parse da URL
@@ -29,7 +30,11 @@ const server = http.createServer((request, response) => {
       response.writeHead(statusCode, { 'Content-Type': 'application/json' })
       response.end(JSON.stringify(body))
     }
-    return route.handler(request, response)
+
+    if (['PUT', 'POST'].includes(request.method)) {
+      return bodyParser(request, () => route.handler(request, response))
+    }
+    route.handler(request, response)
   }
 
   middlewares.routeNotFound(response)

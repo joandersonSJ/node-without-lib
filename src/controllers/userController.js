@@ -24,27 +24,20 @@ module.exports = {
   },
 
   store(request, response) {
-    let body = ''
 
-    request.on('data', chunk => {
-      body += chunk
-    })
+    const { body } = request
 
-    request.on('end', () => {
-      body = JSON.parse(body)
+    if (!body?.name) {
+      return response.send(400, { erro: 'Name not send' })
+    }
+    const lastUserId = users[users.length - 1].id
+    const newUser = {
+      id: lastUserId + 1,
+      name: body.name
+    }
 
-      if (!body.name) {
-        return response.send(400, { erro: 'Name not send' })
-      }
-      const lastUserId = users[users.length - 1].id
-      const newUser = {
-        id: lastUserId + 1,
-        name: body.name
-      }
-
-      users.push(newUser)
-      response.send(200, newUser)
-    })
+    users.push(newUser)
+    response.send(200, newUser)
 
   }
 }
