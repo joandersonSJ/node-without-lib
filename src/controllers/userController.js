@@ -48,7 +48,7 @@ module.exports = {
     const user = users.find(userObject => userObject.id === Number(id))
 
     if (!user) {
-      return response.send(404, { error: 'Message not found' })
+      return response.send(404, { error: 'User not found' })
     }
 
     users = users.map(user => {
@@ -62,5 +62,19 @@ module.exports = {
     })
 
     response.send(200, { id, name })
+  },
+
+  delete(request, response) {
+    const { id } = request.params
+
+    const user = users.find(userObject => userObject.id === Number(id))
+
+    if (!user) {
+      return response.send(404, { error: 'User not found' })
+    }
+
+    users = users.filter(user => user.id !== Number(id))
+
+    response.send(200, { deleted: true })
   }
 }
