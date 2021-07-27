@@ -34,7 +34,7 @@ const server = http.createServer((request, response) => {
     if (['PUT', 'POST'].includes(request.method)) {
       return bodyParser(request, () => route.handler(request, response))
     }
-    route.handler(request, response)
+    return route.handler(request, response)
   }
 
   middlewares.routeNotFound(response)

@@ -17,4 +17,9 @@ module.exports = [
     method: 'POST',
     handler: userController.store
   },
+  {
+    endpoint: '/users/:id',
+    method: 'PUT',
+    handler: userController.update
+  },
 ]

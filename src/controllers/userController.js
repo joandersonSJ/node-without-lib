@@ -1,4 +1,4 @@
-const users = require('../mock/users')
+let users = require('../mock/users')
 
 module.exports = {
   index(request, response) {
@@ -39,5 +39,28 @@ module.exports = {
     users.push(newUser)
     response.send(200, newUser)
 
+  },
+
+  update(request, response) {
+    const { id } = request.params
+    const { name } = request.body
+
+    const user = users.find(userObject => userObject.id === Number(id))
+
+    if (!user) {
+      return response.send(404, { error: 'Message not found' })
+    }
+
+    users = users.map(user => {
+      if (user.id === Number(id)) {
+        return {
+          ...user,
+          name
+        }
+      }
+      return user
+    })
+
+    response.send(200, { id, name })
   }
 }
