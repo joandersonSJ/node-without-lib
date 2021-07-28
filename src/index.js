@@ -5,8 +5,10 @@ const middlewares = require('./utils/middlewares')
 const bodyParser = require('./helpers/bodyParser')
 
 const server = http.createServer((request, response) => {
+
+  const port = process.env.PORT || 4000
   // Novo parse da URL
-  const parsedUrl = new URL(`http://localhost:4000${request.url}`)
+  const parsedUrl = new URL(`http://localhost:${port}${request.url}`)
   let { pathname } = parsedUrl, id = null
 
 
@@ -40,4 +42,4 @@ const server = http.createServer((request, response) => {
   middlewares.routeNotFound(response)
 })
 
-server.listen(4000, () => console.log('Server started'))
+server.listen(port, () => console.log(`Server started at ${port}`))
