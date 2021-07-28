@@ -3,14 +3,16 @@ const { URL } = require('url')
 const routes = require('./routes')
 const middlewares = require('./utils/middlewares')
 const bodyParser = require('./helpers/bodyParser')
+const readEnvFile = require('./helpers/readEnvFile')
+
+readEnvFile()
+const port = process.env.PORT || 4000
+
 
 const server = http.createServer((request, response) => {
-
-  const port = process.env.PORT || 4000
   // Novo parse da URL
   const parsedUrl = new URL(`http://localhost:${port}${request.url}`)
   let { pathname } = parsedUrl, id = null
-
 
   console.log(`Request method: ${request.method} | Request endpoint: ${pathname}`)
 
